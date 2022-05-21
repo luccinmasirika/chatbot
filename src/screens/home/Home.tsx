@@ -18,7 +18,7 @@ const CtaButton = styled(Button)(({ theme }) => ({
 
 const Home = () => {
   return (
-    <Stack sx={{ bgcolor: 'background.paper', minHeight: '100vh' }}>
+    <Stack sx={{ bgcolor: 'background.paper' }}>
       <Stack sx={{ px: 4, py: 10 }} spacing={4}>
         <Stack>
           <Typography variant="h4" textAlign="center" gutterBottom>
