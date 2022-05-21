@@ -14,7 +14,7 @@ const Image = styled('img')(({ theme }) => ({
 const CtaButton = styled(Button)(({ theme }) => ({
   '& .MuiButton-endIcon': { position: 'absolute', left: 10, bgcolor: 'red' },
   padding: theme.spacing(2),
-  borderRadius: 2,
+  borderRadius: theme.spacing(1),
 }));
 
 const Home = () => {
