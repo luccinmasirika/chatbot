@@ -18,8 +18,8 @@ const CtaButton = styled(Button)(({ theme }) => ({
 
 const Home = () => {
   return (
-    <Stack sx={{ bgcolor: 'background.paper' }}>
-      <Stack sx={{ px: 4, py: 8 }} spacing={4}>
+    <Stack sx={{ bgcolor: 'background.paper', minHeight: '100vh' }}>
+      <Stack sx={{ px: 4, py: 10 }} spacing={4}>
         <Stack>
           <Typography variant="h4" textAlign="center" gutterBottom>
             {data.home.title}
@@ -48,19 +48,30 @@ const Home = () => {
           >
             {data.home.primaryBtn}
           </CtaButton>
-          <Button>{data.home.secondaryBtn}</Button>
+          <CtaButton>{data.home.secondaryBtn}</CtaButton>
         </Stack>
       </Stack>
       <Stack
-        sx={{ bgcolor: 'primary.dark', py: 4, px: 2 }}
+        sx={{
+          bgcolor: 'primary.dark',
+          py: 4,
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          width: 1,
+        }}
         color="white"
         alignItems="center"
       >
         <Typography>{data.home.footer.title}</Typography>
         <Image src={Logo} alt="" />
-        <Stack justifyContent="space-between" direction="row" sx={{ width: 1 }}>
-          <Typography>{data.home.footer.copyright}</Typography>
-          <Typography>{data.home.footer.link}</Typography>
+        <Stack justifyContent="space-evenly" direction="row" sx={{ width: 1 }}>
+          <Typography variant="caption">
+            {data.home.footer.copyright}
+          </Typography>
+          <Typography component="a" variant="caption">
+            {data.home.footer.link}
+          </Typography>
         </Stack>
       </Stack>
     </Stack>
