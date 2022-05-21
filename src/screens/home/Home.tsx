@@ -14,6 +14,7 @@ const Image = styled('img')(({ theme }) => ({
 const CtaButton = styled(Button)(({ theme }) => ({
   '& .MuiButton-endIcon': { position: 'absolute', left: 10, bgcolor: 'red' },
   padding: theme.spacing(2),
+  borderRadius: 2,
 }));
 
 const Home = () => {
@@ -69,7 +70,11 @@ const Home = () => {
           <Typography variant="caption">
             {data.home.footer.copyright}
           </Typography>
-          <Typography component="a" variant="caption">
+          <Typography
+            component="a"
+            sx={{ textDecoration: 'underline' }}
+            variant="caption"
+          >
             {data.home.footer.link}
           </Typography>
         </Stack>
