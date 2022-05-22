@@ -67,26 +67,11 @@ const Checking = () => {
             {data.questions[0].ass[0]}
           </Paper>
         </Box>
-        
+
         <Box sx={{ my: 4 }}>
           <Typography variant="h6" sx={{ px: 2 }} gutterBottom>
             {data.questions[0].question}
           </Typography>
-          <Paper
-            sx={{
-              mx: 1,
-              borderRadius: 5,
-              py: 1,
-              px: 2,
-              bgcolor: 'primary.main',
-              display: 'inline-block',
-              color: 'white',
-              width: 'max-content',
-              my: 1,
-            }}
-          >
-            {data.questions[0].ass[0]}
-          </Paper>
           <Stack
             direction="row"
             sx={{
