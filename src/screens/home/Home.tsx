@@ -5,6 +5,8 @@ import data from '../../data/data.json';
 import Button from '@mui/material/Button';
 import Logo from '../../assets/logo.png';
 import { styled } from '@mui/material';
+import { Layout } from '../../components';
+import { useNavigate } from 'react-router-dom';
 
 const Image = styled('img')(({ theme }) => ({
   width: 100,
@@ -18,8 +20,9 @@ const CtaButton = styled(Button)(({ theme }) => ({
 }));
 
 const Home = () => {
+  const navigate = useNavigate();
   return (
-    <Stack sx={{ bgcolor: 'background.paper' }}>
+    <Layout>
       <Stack sx={{ px: 4, py: 10 }} spacing={4}>
         <Stack>
           <Typography variant="h4" textAlign="center" gutterBottom>
@@ -32,6 +35,7 @@ const Home = () => {
         <Stack sx={{ px: 3 }} spacing={1}>
           <CtaButton
             variant="contained"
+            onClick={() => navigate('questions')}
             endIcon={
               <svg
                 width="6"
@@ -79,7 +83,7 @@ const Home = () => {
           </Typography>
         </Stack>
       </Stack>
-    </Stack>
+    </Layout>
   );
 };
 

@@ -1,13 +1,15 @@
 import * as React from 'react';
-import { Home } from './screens';
-import { ThemeProvider } from '@mui/material';
-import { theme } from './utils/theme';
+import { Home, Questions, Results, Processing } from './screens';
+import { Route, Routes } from 'react-router-dom';
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <Home />
-    </ThemeProvider>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/questions" element={<Questions />} />
+      <Route path="/results" element={<Results />} />
+      <Route path="/processing" element={<Processing />} />
+    </Routes>
   );
 }
 
