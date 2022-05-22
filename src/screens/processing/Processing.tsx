@@ -39,7 +39,7 @@ function CircularProgressWithLabel(
 }
 
 const Processing = () => {
-  const [progress, setProgress] = React.useState(10);
+  const [progress, setProgress] = React.useState(0);
 
   React.useEffect(() => {
     const timer = setInterval(() => {
