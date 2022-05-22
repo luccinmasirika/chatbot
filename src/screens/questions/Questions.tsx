@@ -66,16 +66,12 @@ const Checking = () => {
   };
 
   const onClick = (value: string) => {
-    setTimeout(() => {
-      trigger(value);
-    }, 1000);
+    trigger(value);
     setUserHistory([...userHistory, value]);
   };
 
   const onSubmit = () => {
-    setTimeout(() => {
-      setBotInput(userInput);
-    }, 1000);
+    setBotInput(userInput);
     setUserHistory([...userHistory, userInput]);
     setUserInput('');
   };
