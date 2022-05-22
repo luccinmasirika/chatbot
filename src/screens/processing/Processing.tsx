@@ -51,6 +51,7 @@ const Processing = () => {
       clearInterval(timer);
     };
   }, []);
+  
   return (
     <Layout>
       <Container sx={{ py: 4, height: '100vh' }}>
