@@ -9,7 +9,6 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
-import List from '@mui/material/List';
 interface Steps {
   id: string;
   question: string;
@@ -20,6 +19,7 @@ interface Answer {
   id: string | number
   answer: string
 }
+
 const Checking = () => {
   const [questionsList, setQuestionList] = React.useState<Steps[]>([
     {
@@ -76,22 +76,9 @@ const Checking = () => {
   const [answers, setAnswers] = React.useState<Answer[]>([]);
   const [userStep, setSteps] = React.useState(1);
   const [userInput, setUserInput] = React.useState('');
-  const [userHistory, setUserHistory] = React.useState<string[]>([]);
-  const [botHistory, setBotHistory] = React.useState<Steps[]>([]);
-  const [botInput, setBotInput] = React.useState('answer 0');
 
   const onChange = (e: { target: { value: string } }) => {
     setUserInput(e.target.value);
-  };
-
-  const trigger = (input: string) => {
-    // for (let i = 0; i < steps.length; i++) {
-    //   if (steps[i].trigger === input) {
-    //     setBotHistory([...botHistory, steps[i]]);
-    //   } else {
-    //     setUserHistory([...userHistory]);
-    //   }
-    // }
   };
 
   const onClick = (value: string) => {
@@ -100,14 +87,8 @@ const Checking = () => {
   };
 
   const onSubmit = () => {
-    setBotInput(userInput);
-    setUserHistory([...userHistory, userInput]);
     setUserInput('');
   };
-
-  React.useEffect(() => {
-    trigger(botInput);
-  }, [botInput]);
 
   const getProcenteg = () => {
     let total = 100
@@ -139,7 +120,6 @@ const Checking = () => {
           {`שאלה ${userStep} מתוך  ${questionsList.length}`}
         </Typography>
       </Stack>
-
       {/* Questions Contianer*/}
       <Stack
         sx={{
