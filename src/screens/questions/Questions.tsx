@@ -18,12 +18,12 @@ interface Steps {
 }
 
 interface Answer {
-  id: string | number
-  answer: string
+  id: string | number;
+  answer: string;
 }
 
 const Checking = () => {
-  const [questionsList, setQuestionList] = React.useState<Steps[]>([
+  const [questionsList] = React.useState<Steps[]>([
     {
       id: '1',
       question: 'שאלה 1?',
@@ -78,73 +78,78 @@ const Checking = () => {
   const [answers, setAnswers] = React.useState<Answer[]>([]);
   const [userStep, setSteps] = React.useState(1);
   const [userInput, setUserInput] = React.useState('');
-  const [fadeQ, setFadeQ] = React.useState(false);
 
-  const messagesEndRef = React.useRef()
+  const messagesEndRef = React.useRef();
   const navigate = useNavigate();
 
   const onChange = (e: { target: { value: string } }) => {
     setUserInput(e.target.value);
   };
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      setFadeQ(true)
-    }, 1000);
-  }, [userStep])
-
   const scrollToBottom = () => {
     //@ts-ignore
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const onClick = (value: string) => {
-    setAnswers([...answers, { id: questionsList[userStep - 1].id, answer: value }])
+    setAnswers([
+      ...answers,
+      { id: questionsList[userStep - 1].id, answer: value },
+    ]);
+
     if (userStep === questionsList.length) {
-      // navigate('/processing')
+      navigate('/processing');
       //Post to api
     } else {
-      setFadeQ(false)
+      setSteps(userStep + 1);
       setTimeout(() => {
-        setSteps(userStep + 1)
-        scrollToBottom()
-      }, 500);
+        scrollToBottom();
+      }, 10);
     }
   };
-  console.log('fadeQ', fadeQ)
+
   const onSubmit = () => {
+    setAnswers([
+      ...answers,
+      { id: questionsList[userStep - 1].id, answer: userInput },
+    ]);
+    setSteps(userStep + 1);
     setUserInput('');
   };
 
   const getProcenteg = () => {
-    let total = 100
-    let stepP = 100 / questionsList.length
-    let totalDec = total - (stepP * userStep)
-    return total - totalDec
-  }
+    let total = 100;
+    let stepP = 100 / questionsList.length;
+    let totalDec = total - stepP * userStep;
+    return total - totalDec;
+  };
 
   return (
     <Layout>
       {/* //Header */}
       <Stack
+        justifyContent="center"
         sx={{
-          pt: 3,
-          pb: 1,
-          px: 2,
+          position: 'fixed',
+          height: 70,
           left: 0,
           right: 0,
           bgcolor: 'background.paper',
+          zIndex: 2,
+          top: 0,
         }}
         spacing={2}
       >
-        <LinearProgress
-          variant="determinate"
-          value={getProcenteg()}
-          sx={{ height: 6, borderRadius: 5 }}
-        />
-        <Typography textAlign="center" color="text.secondary">
-          {`שאלה ${userStep} מתוך  ${questionsList.length}`}
-        </Typography>
+        <Stack sx={{ px: 2, pt: 2 }}>
+          <LinearProgress
+            variant="determinate"
+            value={getProcenteg()}
+            sx={{ height: 6, borderRadius: 5 }}
+          />
+          <Typography textAlign="center" color="text.secondary">
+            {`שאלה ${userStep} מתוך  ${questionsList.length}`}
+          </Typography>
+        </Stack>
       </Stack>
       {/* Questions Contianer*/}
       <Stack
@@ -152,79 +157,75 @@ const Checking = () => {
           position: 'fixed',
           left: 0,
           right: 0,
-          p: 2,
-          bottom: 10,
+          bottom: 0,
+          height: '100vh',
+          justifyContent: 'flex-end'
         }}
       >
         {/* Answers */}
-        <div
-          style={{
+        <Box
+          sx={{
             maxHeight: '68vh',
             overflowY: 'scroll',
-            width: '100vw',
+            px: 1.5,
+            width: 1,
+            marginTop: '70px'
           }}
         >
           {answers.map((el, i) => (
-            <Fade timeout={2000} in={true} key={i}>
-              <Box sx={{ my: 2 }}>
-                <Typography variant="h6" sx={{ px: 2 }} gutterBottom>
-                  {questionsList[i].question}
-                </Typography>
-                <Stack
-                  direction="row"
-                  sx={{
-                    overflowX: 'scroll',
-                    scrollBehavior: 'smooth',
-                    whiteSpace: 'nowrap',
-                    width: '100vw',
-                    '::-webkit-scrollbar': {
-                      display: 'none',
-                    },
-                    '&': {
-                      msOverflowStyle: 'none',
-                      scrollbarWidth: 'none',
-                    },
-                    py: 2,
-                  }}
-                >
-                  {el.answer && (
-                    <Box>
-                      <Paper
-                        key={i}
-                        sx={{
-                          mx: 1,
-                          borderRadius: 5,
-                          py: 1,
-                          px: 2,
-                          display: 'inline-block',
-                          backgroundColor: '#323740',
-                          color: '#fff',
-                        }}
-                      >
-                        {el.answer}
-                      </Paper>
-                    </Box>
-                  )}
-                </Stack>
-
-              </Box>
-            </Fade>
+            <Box key={i} sx={{ my: 2 }}>
+              <Typography variant="h6" sx={{ px: 2 }} gutterBottom>
+                {questionsList[i].question}
+              </Typography>
+              <Stack
+                direction="row"
+                sx={{
+                  overflowX: 'scroll',
+                  scrollBehavior: 'smooth',
+                  whiteSpace: 'nowrap',
+                  width: '100vw',
+                  '::-webkit-scrollbar': {
+                    display: 'none',
+                  },
+                  '&': {
+                    msOverflowStyle: 'none',
+                    scrollbarWidth: 'none',
+                  },
+                  py: 2,
+                }}
+              >
+                {el.answer && (
+                  <Box>
+                    <Paper
+                      key={i}
+                      sx={{
+                        mx: 1,
+                        borderRadius: 5,
+                        py: 1,
+                        px: 2,
+                        display: 'inline-block',
+                        backgroundColor: '#323740',
+                        color: '#fff',
+                      }}
+                    >
+                      {el.answer}
+                    </Paper>
+                  </Box>
+                )}
+              </Stack>
+            </Box>
           ))}
-          <div  //@ts-ignore
-            ref={messagesEndRef} />
-        </div>
+          <div //@ts-ignore
+            ref={messagesEndRef}
+          />
+        </Box>
         {/* Questions */}
-        {
-          userStep <= questionsList.length &&
+        {userStep <= questionsList.length && (
           <Stack>
-            <Box sx={{ my: 2 }}>
-              {
-                questionsList[userStep - 1].question &&
-
-                <Typography variant="h6" sx={{ px: 2 }} gutterBottom>
-                  {questionsList[userStep - 1].question}
-                </Typography>
-              }
+            <Box sx={{ my: 2, px: 1.5, width: 1 }}>
+              <Typography variant="h6" sx={{ px: 2 }} gutterBottom>
+                {questionsList[userStep - 1].question}
+              </Typography>
               <Stack
                 direction="row"
                 sx={{
@@ -244,34 +245,33 @@ const Checking = () => {
               >
                 {questionsList[userStep - 1].choices.map((choise, index) => (
                   <Box key={index}>
-                          <Paper
-                            onClick={() => onClick(choise)}
-                            sx={{
-                              mx: 1,
-                              borderRadius: 5,
-                              py: 1,
-                              px: 2,
-                              display: 'inline-block',
-                            }}
-                          >
-                            {choise}
-                          </Paper>
+                    <Paper
+                      onClick={() => onClick(choise)}
+                      sx={{
+                        mx: 1,
+                        borderRadius: 5,
+                        py: 1,
+                        px: 2,
+                        display: 'inline-block',
+                      }}
+                    >
+                      {choise}
+                    </Paper>
                   </Box>
                 ))}
-
               </Stack>
             </Box>
-
           </Stack>
-        }
+        )}
+
         {/* Input */}
         <Stack
           direction="row-reverse"
           sx={{
-            width: '100%',
-            display: 'flex',
+            // width: 1,
             height: '5vh',
-            alignItems: 'center'
+            alignItems: 'center',
+            py: 3,
           }}
         >
           <Button onClick={onSubmit}>{data.submit}</Button>
@@ -290,9 +290,8 @@ const Checking = () => {
             placeholder={data.placeholder}
           />
         </Stack>
-      </Stack >
-    </Layout >
-
+      </Stack>
+    </Layout>
   );
 };
 

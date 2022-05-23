@@ -10,7 +10,9 @@ interface Props {
 const Layout: React.FC<Props> = ({ children }) => {
   return (
     <ThemeProvider theme={theme}>
-      <Stack sx={{ bgcolor: 'background.paper' }}>{children}</Stack>
+      <Stack sx={{ bgcolor: 'background.paper', minHeight: '100vh' }}>
+        {children}
+      </Stack>
     </ThemeProvider>
   );
 };
