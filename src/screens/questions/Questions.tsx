@@ -8,6 +8,7 @@ import data from '../../data/question.json';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import { useNavigate } from 'react-router-dom';
 
 interface Steps {
   id: string;
@@ -69,7 +70,7 @@ const Checking = () => {
     },
     {
       id: '10',
-      question: 'שאלה 5?',
+      question: 'שאלה 10?',
       choices: ['1', '2', '3', '4'],
     },
   ]);
@@ -77,13 +78,32 @@ const Checking = () => {
   const [userStep, setSteps] = React.useState(1);
   const [userInput, setUserInput] = React.useState('');
 
+  const messagesEndRef = React.useRef()
+  const navigate = useNavigate();
+
   const onChange = (e: { target: { value: string } }) => {
     setUserInput(e.target.value);
   };
 
+  const scrollToBottom = () => {
+    //@ts-ignore
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+
   const onClick = (value: string) => {
     setAnswers([...answers, { id: questionsList[userStep - 1].id, answer: value }])
-    setSteps(userStep + 1)
+   
+    if(userStep === questionsList.length){
+      navigate('/processing')
+      //Post to api
+    } else {
+      setSteps(userStep + 1)
+      setTimeout(() => {
+        scrollToBottom()
+      }, 10);
+    }
+   
+   
   };
 
   const onSubmit = () => {
@@ -132,6 +152,7 @@ const Checking = () => {
       >
         {/* Answers */}
         <div
+         
           style={{
             maxHeight: '68vh',
             overflowY: 'scroll',
@@ -182,6 +203,8 @@ const Checking = () => {
 
             </Box>
           ))}
+          <div  //@ts-ignore
+          ref={messagesEndRef} />
         </div>
         {/* Questions */}
         {
@@ -229,7 +252,6 @@ const Checking = () => {
             </Box>
           </Stack>
         }
-
         {/* Input */}
         <Stack
           direction="row-reverse"
@@ -256,7 +278,6 @@ const Checking = () => {
             placeholder={data.placeholder}
           />
         </Stack>
-
       </Stack>
     </Layout>
 

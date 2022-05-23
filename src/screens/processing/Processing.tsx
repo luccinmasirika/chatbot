@@ -9,6 +9,7 @@ import CircularProgress, {
   CircularProgressProps,
 } from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import { useNavigate } from 'react-router-dom';
 
 function CircularProgressWithLabel(
   props: CircularProgressProps & { value: number }
@@ -40,6 +41,7 @@ function CircularProgressWithLabel(
 
 const Processing = () => {
   const [progress, setProgress] = React.useState(0);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     const timer = setInterval(() => {
@@ -51,6 +53,12 @@ const Processing = () => {
       clearInterval(timer);
     };
   }, []);
+
+  React.useEffect(() => {
+    if(progress >= 100) {
+      navigate('/results')
+    }
+  }, [progress]);
   
   return (
     <Layout>
