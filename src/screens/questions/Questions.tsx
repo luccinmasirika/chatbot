@@ -8,6 +8,7 @@ import data from '../../data/question.json';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import { useNavigate } from 'react-router-dom';
 
 interface Steps {
   id: string;
@@ -69,7 +70,7 @@ const Checking = () => {
     },
     {
       id: '10',
-      question: 'שאלה 5?',
+      question: 'שאלה 10?',
       choices: ['1', '2', '3', '4'],
     },
   ]);
@@ -77,8 +78,16 @@ const Checking = () => {
   const [userStep, setSteps] = React.useState(1);
   const [userInput, setUserInput] = React.useState('');
 
+  const messagesEndRef = React.useRef();
+  const navigate = useNavigate();
+
   const onChange = (e: { target: { value: string } }) => {
     setUserInput(e.target.value);
+  };
+
+  const scrollToBottom = () => {
+    //@ts-ignore
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const onClick = (value: string) => {
@@ -86,7 +95,16 @@ const Checking = () => {
       ...answers,
       { id: questionsList[userStep - 1].id, answer: value },
     ]);
-    setSteps(userStep + 1);
+
+    if (userStep === questionsList.length) {
+      navigate('/processing');
+      //Post to api
+    } else {
+      setSteps(userStep + 1);
+      setTimeout(() => {
+        scrollToBottom();
+      }, 10);
+    }
   };
 
   const onSubmit = () => {
@@ -139,7 +157,6 @@ const Checking = () => {
           left: 0,
           right: 0,
           bottom: 0,
-          px: 2,
         }}
       >
         {/* Answers */}
@@ -147,6 +164,8 @@ const Checking = () => {
           sx={{
             maxHeight: '68vh',
             overflowY: 'scroll',
+            px: 1.5,
+            width: 1,
           }}
         >
           {answers.map((el, i) => (
@@ -192,11 +211,14 @@ const Checking = () => {
               </Stack>
             </Box>
           ))}
+          <div //@ts-ignore
+            ref={messagesEndRef}
+          />
         </Box>
         {/* Questions */}
         {userStep <= questionsList.length && (
           <Stack>
-            <Box sx={{ my: 2 }}>
+            <Box sx={{ my: 2, px: 1.5, width: 1 }}>
               <Typography variant="h6" sx={{ px: 2 }} gutterBottom>
                 {questionsList[userStep - 1].question}
               </Typography>
@@ -242,7 +264,7 @@ const Checking = () => {
         <Stack
           direction="row-reverse"
           sx={{
-            width: 1,
+            // width: 1,
             height: '5vh',
             alignItems: 'center',
             py: 3,
