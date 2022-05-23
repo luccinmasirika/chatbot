@@ -23,7 +23,7 @@ const Home = () => {
   const navigate = useNavigate();
   return (
     <Layout>
-      <Stack sx={{ px: 4, py: 10 }} spacing={4}>
+      <Stack sx={{ px: 4, py: '15vh' }} spacing={4}>
         <Stack>
           <Typography variant="h4" textAlign="center" gutterBottom>
             {data.home.title}
@@ -59,10 +59,7 @@ const Home = () => {
       <Stack
         sx={{
           bgcolor: 'primary.dark',
-          py: 4,
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
+          py: '5vh',
           width: 1,
         }}
         color="white"

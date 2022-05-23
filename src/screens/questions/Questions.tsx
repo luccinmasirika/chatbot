@@ -16,12 +16,12 @@ interface Steps {
 }
 
 interface Answer {
-  id: string | number
-  answer: string
+  id: string | number;
+  answer: string;
 }
 
 const Checking = () => {
-  const [questionsList, setQuestionList] = React.useState<Steps[]>([
+  const [questionsList] = React.useState<Steps[]>([
     {
       id: '1',
       question: 'שאלה 1?',
@@ -82,43 +82,55 @@ const Checking = () => {
   };
 
   const onClick = (value: string) => {
-    setAnswers([...answers, { id: questionsList[userStep - 1].id, answer: value }])
-    setSteps(userStep + 1)
+    setAnswers([
+      ...answers,
+      { id: questionsList[userStep - 1].id, answer: value },
+    ]);
+    setSteps(userStep + 1);
   };
 
   const onSubmit = () => {
+    setAnswers([
+      ...answers,
+      { id: questionsList[userStep - 1].id, answer: userInput },
+    ]);
+    setSteps(userStep + 1);
     setUserInput('');
   };
 
   const getProcenteg = () => {
-    let total = 100
-    let stepP = 100 / questionsList.length
-    let totalDec = total - (stepP * userStep)
-    return total - totalDec
-  }
+    let total = 100;
+    let stepP = 100 / questionsList.length;
+    let totalDec = total - stepP * userStep;
+    return total - totalDec;
+  };
 
   return (
     <Layout>
       {/* //Header */}
       <Stack
+        justifyContent="center"
         sx={{
-          pt: 3,
-          pb: 1,
-          px: 2,
+          position: 'fixed',
+          height: 70,
           left: 0,
           right: 0,
           bgcolor: 'background.paper',
+          zIndex: 2,
+          top: 0,
         }}
         spacing={2}
       >
-        <LinearProgress
-          variant="determinate"
-          value={getProcenteg()}
-          sx={{ height: 6, borderRadius: 5 }}
-        />
-        <Typography textAlign="center" color="text.secondary">
-          {`שאלה ${userStep} מתוך  ${questionsList.length}`}
-        </Typography>
+        <Stack sx={{ px: 2, pt: 2 }}>
+          <LinearProgress
+            variant="determinate"
+            value={getProcenteg()}
+            sx={{ height: 6, borderRadius: 5 }}
+          />
+          <Typography textAlign="center" color="text.secondary">
+            {`שאלה ${userStep} מתוך  ${questionsList.length}`}
+          </Typography>
+        </Stack>
       </Stack>
       {/* Questions Contianer*/}
       <Stack
@@ -126,16 +138,15 @@ const Checking = () => {
           position: 'fixed',
           left: 0,
           right: 0,
-          p: 2,
-          bottom: 10,
+          bottom: 0,
+          px: 2,
         }}
       >
         {/* Answers */}
-        <div
-          style={{
+        <Box
+          sx={{
             maxHeight: '68vh',
             overflowY: 'scroll',
-            width: '100vw',
           }}
         >
           {answers.map((el, i) => (
@@ -179,13 +190,11 @@ const Checking = () => {
                   </Box>
                 )}
               </Stack>
-
             </Box>
           ))}
-        </div>
+        </Box>
         {/* Questions */}
-        {
-          userStep <= questionsList.length &&
+        {userStep <= questionsList.length && (
           <Stack>
             <Box sx={{ my: 2 }}>
               <Typography variant="h6" sx={{ px: 2 }} gutterBottom>
@@ -224,20 +233,19 @@ const Checking = () => {
                     </Paper>
                   </Box>
                 ))}
-
               </Stack>
             </Box>
           </Stack>
-        }
+        )}
 
         {/* Input */}
         <Stack
           direction="row-reverse"
           sx={{
-            width: '100%',
-            display: 'flex',
+            width: 1,
             height: '5vh',
-            alignItems: 'center'
+            alignItems: 'center',
+            py: 3,
           }}
         >
           <Button onClick={onSubmit}>{data.submit}</Button>
@@ -256,10 +264,8 @@ const Checking = () => {
             placeholder={data.placeholder}
           />
         </Stack>
-
       </Stack>
     </Layout>
-
   );
 };
 
