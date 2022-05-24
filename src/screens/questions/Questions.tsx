@@ -78,10 +78,15 @@ const Checking = () => {
   const [answers, setAnswers] = React.useState<Answer[]>([]);
   const [userStep, setSteps] = React.useState(1);
   const [userInput, setUserInput] = React.useState('');
+  const [fadeQ, setFadeQ] = React.useState(false);
 
   const messagesEndRef = React.useRef();
   const navigate = useNavigate();
 
+  React.useEffect(() => {
+    setFadeQ(true)
+  }, [])
+  
   const onChange = (e: { target: { value: string } }) => {
     setUserInput(e.target.value);
   };
@@ -221,46 +226,48 @@ const Checking = () => {
         </Box>
         {/* Questions */}
         {userStep <= questionsList.length && (
-          <Stack>
-            <Box sx={{ my: 2, px: 1.5, width: 1 }}>
-              <Typography variant="h6" sx={{ px: 2 }} gutterBottom>
-                {questionsList[userStep - 1].question}
-              </Typography>
-              <Stack
-                direction="row"
-                sx={{
-                  overflowX: 'scroll',
-                  scrollBehavior: 'smooth',
-                  whiteSpace: 'nowrap',
-                  width: '100vw',
-                  '::-webkit-scrollbar': {
-                    display: 'none',
-                  },
-                  '&': {
-                    msOverflowStyle: 'none',
-                    scrollbarWidth: 'none',
-                  },
-                  py: 2,
-                }}
-              >
-                {questionsList[userStep - 1].choices.map((choise, index) => (
-                  <Box key={index}>
-                    <Paper
-                      onClick={() => onClick(choise)}
-                      sx={{
-                        mx: 1,
-                        borderRadius: 5,
-                        py: 1,
-                        px: 2,
-                        display: 'inline-block',
-                      }}
-                    >
-                      {choise}
-                    </Paper>
-                  </Box>
-                ))}
-              </Stack>
-            </Box>
+          <Stack sx={{ minHeight: '15vh' }}>
+            <Fade in={fadeQ} timeout={1500}>
+              <Box sx={{ my: 2, px: 1.5, width: 1 }}>
+                <Typography variant="h6" sx={{ px: 2 }} gutterBottom>
+                  {questionsList[userStep - 1].question}
+                </Typography>
+                <Stack
+                  direction="row"
+                  sx={{
+                    overflowX: 'scroll',
+                    scrollBehavior: 'smooth',
+                    whiteSpace: 'nowrap',
+                    width: '100vw',
+                    '::-webkit-scrollbar': {
+                      display: 'none',
+                    },
+                    '&': {
+                      msOverflowStyle: 'none',
+                      scrollbarWidth: 'none',
+                    },
+                    py: 2,
+                  }}
+                >
+                  {questionsList[userStep - 1].choices.map((choise, index) => (
+                    <Box key={index}>
+                      <Paper
+                        onClick={() => onClick(choise)}
+                        sx={{
+                          mx: 1,
+                          borderRadius: 5,
+                          py: 1,
+                          px: 2,
+                          display: 'inline-block',
+                        }}
+                      >
+                        {choise}
+                      </Paper>
+                    </Box>
+                  ))}
+                </Stack>
+              </Box>
+            </Fade>
           </Stack>
         )}
 
