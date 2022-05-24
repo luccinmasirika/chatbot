@@ -29,11 +29,9 @@ function CircularProgressWithLabel(
           justifyContent: 'center',
         }}
       >
-        <Typography
-          variant="h6"
-          component="div"
-          color="text.secondary"
-        >{`${Math.round(props.value)}%`}</Typography>
+        <Typography variant="h6" component="div">{`${Math.round(
+          props.value
+        )}%`}</Typography>
       </Box>
     </Box>
   );
@@ -46,20 +44,22 @@ const Processing = () => {
   React.useEffect(() => {
     const timer = setInterval(() => {
       setProgress((prevProgress) =>
-        prevProgress >= 100 ? 0 : prevProgress + 100 / 7
+        prevProgress >= 100 ? 100 : prevProgress + 100 / 70
       );
-    }, 1000);
+    }, 100);
     return () => {
       clearInterval(timer);
     };
   }, []);
 
   React.useEffect(() => {
-    if(progress >= 100) {
-      navigate('/results')
+    if (progress >= 100) {
+      setTimeout(() => {
+        navigate('/results');
+      }, 1000);
     }
   }, [progress]);
-  
+
   return (
     <Layout>
       <Container sx={{ py: 4, height: '100vh' }}>

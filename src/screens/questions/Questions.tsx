@@ -133,28 +133,28 @@ const Checking = () => {
     <Layout>
       {/* //Header */}
       <Stack
-        justifyContent="center"
         sx={{
           position: 'fixed',
-          height: 70,
+          height: 130,
           left: 0,
           right: 0,
-          bgcolor: 'background.paper',
+          py: 1,
+          pt: 2,
+          background: (theme) =>
+            `linear-gradient(${theme.palette.background.paper} 40%, transparent 100%)`,
           zIndex: 2,
           top: 0,
         }}
         spacing={2}
       >
-        <Stack sx={{ px: 2, pt: 2 }}>
-          <LinearProgress
-            variant="determinate"
-            value={getProcenteg()}
-            sx={{ height: 6, borderRadius: 5 }}
-          />
-          <Typography textAlign="center" color="text.secondary">
-            {`שאלה ${userStep} מתוך  ${questionsList.length}`}
-          </Typography>
-        </Stack>
+        <LinearProgress
+          variant="determinate"
+          value={getProcenteg()}
+          sx={{ height: 6, borderRadius: 5, mx: 2 }}
+        />
+        <Typography textAlign="center" color="text.secondary">
+          {`שאלה ${userStep} מתוך  ${questionsList.length}`}
+        </Typography>
       </Stack>
       {/* Questions Contianer*/}
       <Stack
@@ -164,7 +164,7 @@ const Checking = () => {
           right: 0,
           bottom: 0,
           height: '100vh',
-          justifyContent: 'flex-end'
+          justifyContent: 'flex-end',
         }}
       >
         {/* Answers */}
@@ -174,7 +174,14 @@ const Checking = () => {
             overflowY: 'scroll',
             px: 1.5,
             width: 1,
-            marginTop: '70px'
+            marginTop: '70px',
+            '::-webkit-scrollbar': {
+              display: 'none',
+            },
+            '&': {
+              msOverflowStyle: 'none',
+              scrollbarWidth: 'none',
+            },
           }}
         >
           {answers.map((el, i) => (
@@ -226,48 +233,52 @@ const Checking = () => {
         </Box>
         {/* Questions */}
         {userStep <= questionsList.length && (
-          <Stack sx={{ minHeight: '15vh' }}>
-            <Fade in={fadeQ} timeout={1500}>
-              <Box sx={{ my: 2, px: 1.5, width: 1 }}>
-                <Typography variant="h6" sx={{ px: 2 }} gutterBottom>
-                  {questionsList[userStep - 1].question}
-                </Typography>
-                <Stack
-                  direction="row"
-                  sx={{
-                    overflowX: 'scroll',
-                    scrollBehavior: 'smooth',
-                    whiteSpace: 'nowrap',
-                    width: '100vw',
-                    '::-webkit-scrollbar': {
-                      display: 'none',
-                    },
-                    '&': {
-                      msOverflowStyle: 'none',
-                      scrollbarWidth: 'none',
-                    },
-                    py: 2,
-                  }}
-                >
-                  {questionsList[userStep - 1].choices.map((choise, index) => (
-                    <Box key={index}>
-                      <Paper
-                        onClick={() => onClick(choise)}
-                        sx={{
-                          mx: 1,
-                          borderRadius: 5,
-                          py: 1,
-                          px: 2,
-                          display: 'inline-block',
-                        }}
-                      >
-                        {choise}
-                      </Paper>
-                    </Box>
-                  ))}
-                </Stack>
-              </Box>
-            </Fade>
+          <Stack>
+            <Box
+              sx={{
+                my: 2,
+                px: 1.5,
+                width: 1,
+              }}
+            >
+              <Typography variant="h6" sx={{ px: 2 }} gutterBottom>
+                {questionsList[userStep - 1].question}
+              </Typography>
+              <Stack
+                direction="row"
+                sx={{
+                  overflowX: 'scroll',
+                  scrollBehavior: 'smooth',
+                  whiteSpace: 'nowrap',
+                  width: '100vw',
+                  '::-webkit-scrollbar': {
+                    display: 'none',
+                  },
+                  '&': {
+                    msOverflowStyle: 'none',
+                    scrollbarWidth: 'none',
+                  },
+                  py: 2,
+                }}
+              >
+                {questionsList[userStep - 1].choices.map((choise, index) => (
+                  <Box key={index}>
+                    <Paper
+                      onClick={() => onClick(choise)}
+                      sx={{
+                        mx: 1,
+                        borderRadius: 5,
+                        py: 1,
+                        px: 2,
+                        display: 'inline-block',
+                      }}
+                    >
+                      {choise}
+                    </Paper>
+                  </Box>
+                ))}
+              </Stack>
+            </Box>
           </Stack>
         )}
 
