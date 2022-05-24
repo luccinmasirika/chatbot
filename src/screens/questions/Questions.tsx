@@ -120,12 +120,7 @@ const Checking = () => {
   };
 
   const onSubmit = () => {
-    setAnswers([
-      ...answers,
-      { id: questionsList[userStep - 1].id, answer: userInput },
-    ]);
-    setSteps(userStep + 1);
-    setUserInput('');
+   alert('under Development')
   };
 
   const getProcenteg = () => {
