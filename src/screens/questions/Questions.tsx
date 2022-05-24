@@ -84,9 +84,14 @@ const Checking = () => {
   const navigate = useNavigate();
 
   React.useEffect(() => {
+    console.log('userStep', userStep)
     setFadeQ(true)
-  }, [])
-  
+  }, [userStep])
+
+  React.useEffect(() => {
+    answers.length > 0 && setSteps(userStep + 1)
+  }, [answers])
+  console.log('answers.length', answers.length)
   const onChange = (e: { target: { value: string } }) => {
     setUserInput(e.target.value);
   };
@@ -106,7 +111,8 @@ const Checking = () => {
       navigate('/processing');
       //Post to api
     } else {
-      setSteps(userStep + 1);
+      setFadeQ(false)
+
       setTimeout(() => {
         scrollToBottom();
       }, 10);
@@ -233,52 +239,60 @@ const Checking = () => {
         </Box>
         {/* Questions */}
         {userStep <= questionsList.length && (
-          <Stack>
-            <Box
-              sx={{
-                my: 2,
-                px: 1.5,
-                width: 1,
-              }}
-            >
-              <Typography variant="h6" sx={{ px: 2 }} gutterBottom>
-                {questionsList[userStep - 1].question}
-              </Typography>
-              <Stack
-                direction="row"
-                sx={{
-                  overflowX: 'scroll',
-                  scrollBehavior: 'smooth',
-                  whiteSpace: 'nowrap',
-                  width: '100vw',
-                  '::-webkit-scrollbar': {
-                    display: 'none',
-                  },
-                  '&': {
-                    msOverflowStyle: 'none',
-                    scrollbarWidth: 'none',
-                  },
-                  py: 2,
-                }}
-              >
-                {questionsList[userStep - 1].choices.map((choise, index) => (
-                  <Box key={index}>
-                    <Paper
-                      onClick={() => onClick(choise)}
-                      sx={{
-                        mx: 1,
-                        borderRadius: 5,
-                        py: 1,
-                        px: 2,
-                        display: 'inline-block',
-                      }}
-                    >
-                      {choise}
-                    </Paper>
-                  </Box>
-                ))}
-              </Stack>
-            </Box>
+          <Stack sx={{
+            minHeight: '20vh',
+            justifyContent: 'flex-end'
+          }}>
+            { fadeQ &&
+              <Fade in={fadeQ} timeout={1000}>
+                <Box
+                  sx={{
+                    px: 1.5,
+                    width: 1,
+                  }}
+                >
+                  <Typography variant="h6" sx={{ px: 2 }} gutterBottom>
+                    {questionsList[userStep - 1].question}
+                  </Typography>
+                  <Stack
+                    direction="row"
+                    sx={{
+                      overflowX: 'scroll',
+                      scrollBehavior: 'smooth',
+                      whiteSpace: 'nowrap',
+                      width: '100vw',
+                      '::-webkit-scrollbar': {
+                        display: 'none',
+                      },
+                      '&': {
+                        msOverflowStyle: 'none',
+                        scrollbarWidth: 'none',
+                      },
+                      py: 2,
+                    }}
+                  >
+                    {questionsList[userStep - 1].choices.map((choise, index) => (
+                      <Box key={index}>
+                        <Paper
+                          onClick={() => onClick(choise)}
+                          sx={{
+                            mx: 1,
+                            borderRadius: 5,
+                            py: 1,
+                            px: 2,
+                            display: 'inline-block',
+                          }}
+                        >
+                          {choise}
+                        </Paper>
+                      </Box>
+                    ))}
+                  </Stack>
+                </Box>
+              </Fade>
+            }
+
+
           </Stack>
         )}
 

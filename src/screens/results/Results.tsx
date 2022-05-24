@@ -60,13 +60,13 @@ const Results = () => {
 
   return (
     <Layout>
-      <Container sx={{ py: 4 }}>
+      <Container sx={{ py: 2 }}>
         <LinearProgress
           variant="determinate"
           value={100}
           sx={{ height: 6, borderRadius: 5 }}
         />
-        <Stack sx={{ pt: 12 }}>
+        <Stack >
           <Typography variant="h4" textAlign="center" sx={{ my: 8 }}>
             {data.results.title}
           </Typography>
@@ -95,6 +95,8 @@ const Results = () => {
           bgcolor: 'primary.dark',
           py: 4,
           width: 1,
+          position: 'fixed',
+          bottom: 0
         }}
         color="white"
         alignItems="center"
